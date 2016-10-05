@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Ольга Чернышева](https://up.htmlacademy.ru/javascript/7/user/191647).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Градусов](https://htmlacademy.ru/profile/id182375).
 
 ---
 
