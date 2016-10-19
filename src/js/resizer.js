@@ -80,6 +80,12 @@
      * Отрисовка канваса.
      */
     redraw: function() {
+
+      var coordinates = {
+        x1: this._container.width / 2,
+        y1: this._container.height / 2,
+        side: this._resizeConstraint.side / 2
+      };
       // Очистка изображения.
       this._ctx.clearRect(0, 0, this._container.width, this._container.height);
 
@@ -111,64 +117,23 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      // Рамка точками
-      this._ctx.fillStyle = '#ffe753';
-
-      var ctx = this._ctx;
-      var dotRadius = 3;
-      var drawDot = function(ctx, x, y, dotRadius) {
-        ctx.beginPath();
-        ctx.arc(x, y, dotRadius, 0, Math.PI * 2, true);
-        ctx.fill();
-        ctx.closePath();
-      }
-
-      var dotX = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-      var dotY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-
-      while (dotX < this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotX += 15;
-      }
-
-      dotX = this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-
-      while (dotY < this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotY += 15;
-      }
-
-      dotY = this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-
-      while (dotX > -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotX -= 15;
-      }
-
-      dotX = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-
-      while (dotY > -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotY -=15;
-      }
-
       // Отрисовка оверлея
       this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       this._ctx.beginPath();
-      this._ctx.moveTo(-this._container.width / 2, this._container.height / 2);
-      this._ctx.lineTo(this._container.width / 2, this._container.height / 2);
-      this._ctx.lineTo(this._container.width / 2, -this._container.height / 2);
-      this._ctx.lineTo(-this._container.width / 2, -this._container.height / 2);
-      this._ctx.moveTo(-this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(-this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(-this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
+      this._ctx.moveTo(-coordinates.x1, coordinates.y1);
+      this._ctx.lineTo(coordinates.x1, coordinates.y1);
+      this._ctx.lineTo(coordinates.x1, -coordinates.y1);
+      this._ctx.lineTo(-coordinates.x1, -coordinates.y1);
+      this._ctx.moveTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
+      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, -coordinates.side - this._ctx.lineWidth);
+      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, coordinates.side - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, coordinates.side - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
       this._ctx.closePath();
       this._ctx.fill('evenodd');
 
       // Текст
-      this._ctx.font = '30px Verdana';
+      this._ctx.font = '16px Verdana';
       this._ctx.fillStyle = 'white';
       this._ctx.textAlign = 'center';
       this._ctx.fillText(this._image.naturalWidth + ' × ' + this._image.naturalHeight, 0, -this._resizeConstraint.side / 2 - 30);
