@@ -25,7 +25,7 @@
     if (Array.isArray(a)) {
         var amountOfRedPoints = 0;
 
-        for (i < a.length; i++) {
+        for (var i = 0; i < a.length; i++) {
           amountOfRedPoints += a[i];
         }
       }
