@@ -117,6 +117,38 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
+      //Рамка точками
+      this._ctx.fillStyle = '#ffe753';
+      var ctx = this._ctx;
+      var dotRadius = 3;
+      var drawDot = function(ctx_, x, y, dotRadius_) {
+        ctx_.beginPath();
+        ctx_.arc(x, y, dotRadius_, 0, Math.PI * 2, true);
+        ctx_.fill();
+        ctx_.closePath();
+      };
+      var dotX = -coordinates.side - this._ctx.lineWidth / 2;
+      var dotY = -coordinates.side - this._ctx.lineWidth / 2;
+      while (dotX < coordinates.side - this._ctx.lineWidth / 2) {
+        drawDot(ctx, dotX, dotY, dotRadius);
+        dotX += 15;
+      }
+      dotX = coordinates.side - this._ctx.lineWidth / 2;
+      while (dotY < coordinates.side - this._ctx.lineWidth / 2) {
+        drawDot(ctx, dotX, dotY, dotRadius);
+        dotY += 15;
+      }
+      dotY = coordinates.side - this._ctx.lineWidth / 2;
+      while (dotX > -coordinates.side - this._ctx.lineWidth / 2) {
+        drawDot(ctx, dotX, dotY, dotRadius);
+        dotX -= 15;
+      }
+      dotX = -coordinates.side - this._ctx.lineWidth / 2;
+      while (dotY > -coordinates.side - this._ctx.lineWidth / 2) {
+        drawDot(ctx, dotX, dotY, dotRadius);
+        dotY -= 15;
+      }
+
       // Отрисовка оверлея
       this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       this._ctx.beginPath();
