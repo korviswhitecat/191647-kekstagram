@@ -24,8 +24,8 @@
     if (Array.isArray(a)) {
       var amountOfRedPoints = 0;
 
-      for (var i = 0; i < a.length; i++) {
-        amountOfRedPoints += a[i];
+      for (var j = 0; j < a.length; j++) {
+        amountOfRedPoints += a[j];
       }
     }
     return 'Количество красных точек во всех строчках изображения: ' + amountOfRedPoints;
