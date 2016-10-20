@@ -79,24 +79,32 @@
   var resizeFormIsValid = function() {
     var imgWidth = currentResizer._image.naturalWidth;
     var imgHeight = currentResizer._image.naturalHeight;
-    var resizeSide = resizeSize.value;
-    var coordinateX = resizeX.value;
-    var coordinateY = resizeY.value;
-    resizeFwd.setAttribute('disabled', 'disabled');
-    if (coordinateX > 0 && coordinateY > 0 && (coordinateX + resizeSide <= imgWidth) && (coordinateY + resizeSide <= imgHeight)) {
-      resizeFwd.removeAttribute('disabled');
+    resizeSize.max = (imgWidth >= imgHeight) ? imgHeight : imgWidth;
+    var resizeSide = parseInt(resizeSize.value, 10) || 1;
+    var coordinateX = parseInt(resizeX.value, 10) || 0;
+    var coordinateY = parseInt(resizeY.value, 10) || 0;
+
+    if ((coordinateX + resizeSide) <= imgWidth && (coordinateY + resizeSide) <= imgHeight) {
       return true;
     }
     return false;
   };
+
+  var parseNumber = function(str) {
+    return str.replace(/\D+/g, '');
+  };
+
   resizeX.oninput = function() {
-    resizeFormIsValid();
+    resizeX.value = parseNumber(resizeX.value);
+    resizeFwd.disabled = !resizeFormIsValid();
   };
   resizeY.oninput = function() {
-    resizeFormIsValid();
+    resizeY.value = parseNumber(resizeY.value);
+    resizeFwd.disabled = !resizeFormIsValid();
   };
   resizeSize.oninput = function() {
-    resizeFormIsValid();
+    resizeSize.value = parseNumber(resizeSize.value);
+    resizeFwd.disabled = !resizeFormIsValid();
   };
 
   /**
