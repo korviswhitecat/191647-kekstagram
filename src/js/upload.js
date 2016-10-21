@@ -266,6 +266,26 @@
     uploadForm.classList.remove('invisible');
   };
 
+  function birthdayCalculate() {
+    var oneDayMS = 1000 * 60 * 60 * 24;
+    var todaysDate = new Date();
+    var currentYear = currentYear.getFullYear();
+    var lastGraceHoppersBirthday = new Date(currentYear, 11, 9);
+
+    if (lastGraceHoppersBirthday < todaysDate) {
+      lastGraceHoppersBirthday = lastGraceHoppersBirthday.setFullYear(currentYear - 1);
+    }
+    return Math.round((todaysDate - lastGraceHoppersBirthday) / oneDayMS);
+  }
+
+  function defaultFilter() {
+    var cookieExpireDate = birthdayCalculate;
+    window.Cookies.set('upload-filter', { expires: cookieExpireDate });
+    var defaultFilter = window.Cookies.get('upload-filter') || 'none';
+    document.querySelector('#upload-filter-' + defaultFilter.checked) = true;
+    document.querySelector('filter-image-preview'  + defaultFilter) = true;
+  )
+
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
