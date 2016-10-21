@@ -67,6 +67,12 @@
     backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   };
 
+  var defaultFilter = window.Cookies.get('upload-filter') || 'none';
+
+  document.querySelector('#upload-filter-' + defaultFilter).checked = true;
+
+  document.querySelector('.filter-image-preview').classList.add(defaultFilter);
+
   /**
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
@@ -259,6 +265,10 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+    var filterNew = document.querySelector('[name="upload-filter"]:checked').value;
+
+    window.Cookies.set('upload-filter', filterNew, {expires: birthdayCalculate() });
+
     cleanupResizer();
     updateBackground();
 
@@ -267,25 +277,16 @@
   };
 
   function birthdayCalculate() {
-    var oneDayMS = 1000 * 60 * 60 * 24;
     var todaysDate = new Date();
-    var currentYear = currentYear.getFullYear();
+    var currentYear = todaysDate.getFullYear();
     var lastGraceHoppersBirthday = new Date(currentYear, 11, 9);
 
-    if (lastGraceHoppersBirthday < todaysDate) {
-      lastGraceHoppersBirthday = lastGraceHoppersBirthday.setFullYear(currentYear - 1);
+    if (lastGraceHoppersBirthday >= todaysDate) {
+      lastGraceHoppersBirthday = new Date((currentYear - 1), 11, 9);
     }
-    return Math.round((todaysDate - lastGraceHoppersBirthday) / oneDayMS);
+
+    return new Date(+todaysDate + Math.round(Math.abs(todaysDate - lastGraceHoppersBirthday)));
   }
-
-
-  function defaultFilter() {
-    var cookieExpireDate = birthdayCalculate;
-    window.Cookies.set('upload-filter', { expires: cookieExpireDate });
-    var defaultFilter = window.Cookies.get('upload-filter') || 'none';
-    document.querySelector('#upload-filter-' + defaultFilter.checked) = true;
-    document.querySelector('filter-image-preview'  + defaultFilter) = true;
-  )
 
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
