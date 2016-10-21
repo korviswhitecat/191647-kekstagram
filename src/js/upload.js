@@ -278,6 +278,7 @@
     return Math.round((todaysDate - lastGraceHoppersBirthday) / oneDayMS);
   }
 
+
   function defaultFilter() {
     var cookieExpireDate = birthdayCalculate;
     window.Cookies.set('upload-filter', { expires: cookieExpireDate });
