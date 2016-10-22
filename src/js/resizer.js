@@ -107,6 +107,21 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
+      // Отрисовка оверлея
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.beginPath();
+      this._ctx.moveTo(-coordinates.x1, coordinates.y1);
+      this._ctx.lineTo(coordinates.x1, coordinates.y1);
+      this._ctx.lineTo(coordinates.x1, -coordinates.y1);
+      this._ctx.lineTo(-coordinates.x1, -coordinates.y1);
+      this._ctx.moveTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
+      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, -coordinates.side - this._ctx.lineWidth);
+      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, coordinates.side - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, coordinates.side - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
+      this._ctx.closePath();
+      this._ctx.fill('evenodd');
+
       //Рамка точками
       this._ctx.fillStyle = '#ffe753';
       var ctx = this._ctx;
@@ -138,21 +153,6 @@
         drawDot(ctx, dotX, dotY, dotRadius);
         dotY -= 15;
       }
-
-      // Отрисовка оверлея
-      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-      this._ctx.beginPath();
-      this._ctx.moveTo(-coordinates.x1, coordinates.y1);
-      this._ctx.lineTo(coordinates.x1, coordinates.y1);
-      this._ctx.lineTo(coordinates.x1, -coordinates.y1);
-      this._ctx.lineTo(-coordinates.x1, -coordinates.y1);
-      this._ctx.moveTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
-      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, -coordinates.side - this._ctx.lineWidth);
-      this._ctx.lineTo(coordinates.side - this._ctx.lineWidth / 2, coordinates.side - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, coordinates.side - this._ctx.lineWidth / 2);
-      this._ctx.lineTo(-coordinates.side - this._ctx.lineWidth, -coordinates.side - this._ctx.lineWidth);
-      this._ctx.closePath();
-      this._ctx.fill('evenodd');
 
       // Текст
       this._ctx.font = '16px Verdana';

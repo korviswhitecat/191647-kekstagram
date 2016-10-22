@@ -67,6 +67,12 @@
     backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   };
 
+  var defaultFilter = window.Cookies.get('upload-filter') || 'none';
+
+  document.querySelector('#upload-filter-' + defaultFilter).checked = true;
+
+  document.querySelector('.filter-image-preview').classList.add(defaultFilter);
+
   /**
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
@@ -259,12 +265,28 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+    var filterNew = document.querySelector('[name="upload-filter"]:checked').value;
+
+    window.Cookies.set('upload-filter', filterNew, {expires: birthdayCalculate() });
+
     cleanupResizer();
     updateBackground();
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
   };
+
+  function birthdayCalculate() {
+    var todaysDate = new Date();
+    var currentYear = todaysDate.getFullYear();
+    var lastGraceHoppersBirthday = new Date(currentYear, 11, 9);
+
+    if (lastGraceHoppersBirthday >= todaysDate) {
+      lastGraceHoppersBirthday = new Date((currentYear - 1), 11, 9);
+    }
+
+    return new Date(+todaysDate + Math.round(Math.abs(todaysDate - lastGraceHoppersBirthday)));
+  }
 
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
