@@ -149,6 +149,8 @@ var renderPictures = function(render) {
   render.forEach(function(picture) {
     picturesContainer.appendChild(getPictureElement(picture));
   });
+
+  filters.classList.remove('hidden');
 };
 
 renderPictures(pictures)();
