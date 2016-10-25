@@ -61,4 +61,4 @@ var load = function(url, callback, callbackName) {
 
 var IMAGE_LOAD_URL = 'http://localhost:1507/api/pictures';
 
-load(IMAGE_LOAD_URL, renderPictures)();
+load(IMAGE_LOAD_URL, renderPictures);
