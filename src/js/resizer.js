@@ -185,43 +185,43 @@ module.exports = function() {
     // Рамка зигзагом
 
     zigzagFrame: function() {
-      var resizeConstraintSide = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
+      var resizeConstraintSide = -this._resizeConstraint.side / 2;
       var coodinateX = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
       var coodinateY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-      var zigzagSize = 10;
+      var zigzagSize = this._resizeConstraint.side / 80;
 
       this._ctx.strokeStyle = '#ffe753';
-      this._ctx.lineWidth = 3;
+      this._ctx.lineWidth = 2;
 
       this._ctx.beginPath();
       this._ctx.moveTo(coodinateX, coodinateY);
 
       var i = 0;
-      while(i < -resizeConstraintSide - 10) {
+      while(i < -resizeConstraintSide) {
         this._ctx.lineTo(coodinateX += zigzagSize, coodinateY -= zigzagSize);
         this._ctx.lineTo(coodinateX += zigzagSize, coodinateY += zigzagSize);
-        i += 10;
+        i += zigzagSize;
       }
 
       i = 0;
-      while(i < -resizeConstraintSide - 10) {
+      while(i < -resizeConstraintSide) {
         this._ctx.lineTo(coodinateX += zigzagSize, coodinateY += zigzagSize);
         this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY += zigzagSize);
-        i += 10;
+        i += zigzagSize;
       }
 
       i = 0;
-      while(i < -resizeConstraintSide - 10) {
+      while(i < -resizeConstraintSide) {
         this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY += zigzagSize);
         this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY -= zigzagSize);
-        i += 10;
+        i += zigzagSize;
       }
 
       i = 0;
-      while(i < -resizeConstraintSide - 10) {
+      while(i < -resizeConstraintSide) {
         this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY -= zigzagSize);
         this._ctx.lineTo(coodinateX += zigzagSize, coodinateY -= zigzagSize);
-        i += 10;
+        i += zigzagSize;
       }
 
       this._ctx.stroke();
