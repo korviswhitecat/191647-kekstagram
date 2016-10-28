@@ -122,37 +122,40 @@ module.exports = function() {
       this._ctx.closePath();
       this._ctx.fill('evenodd');
 
-      //Рамка точками
-      this._ctx.fillStyle = '#ffe753';
-      var ctx = this._ctx;
-      var dotRadius = 3;
-      var drawDot = function(ctx_, x, y, dotRadius_) {
-        ctx_.beginPath();
-        ctx_.arc(x, y, dotRadius_, 0, Math.PI * 2, true);
-        ctx_.fill();
-        ctx_.closePath();
-      };
-      var dotX = -coordinates.side - this._ctx.lineWidth / 2;
-      var dotY = -coordinates.side - this._ctx.lineWidth / 2;
-      while (dotX < coordinates.side - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotX += 15;
-      }
-      dotX = coordinates.side - this._ctx.lineWidth / 2;
-      while (dotY < coordinates.side - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotY += 15;
-      }
-      dotY = coordinates.side - this._ctx.lineWidth / 2;
-      while (dotX > -coordinates.side - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotX -= 15;
-      }
-      dotX = -coordinates.side - this._ctx.lineWidth / 2;
-      while (dotY > -coordinates.side - this._ctx.lineWidth / 2) {
-        drawDot(ctx, dotX, dotY, dotRadius);
-        dotY -= 15;
-      }
+      // Вызов функции отрисовки рамки зигзагом
+      this.zigzagFrame();
+
+      // //Рамка точками
+      // this._ctx.fillStyle = '#ffe753';
+      // var ctx = this._ctx;
+      // var dotRadius = 3;
+      // var drawDot = function(ctx_, x, y, dotRadius_) {
+      //   ctx_.beginPath();
+      //   ctx_.arc(x, y, dotRadius_, 0, Math.PI * 2, true);
+      //   ctx_.fill();
+      //   ctx_.closePath();
+      // };
+      // var dotX = -coordinates.side - this._ctx.lineWidth / 2;
+      // var dotY = -coordinates.side - this._ctx.lineWidth / 2;
+      // while (dotX < coordinates.side - this._ctx.lineWidth / 2) {
+      //   drawDot(ctx, dotX, dotY, dotRadius);
+      //   dotX += 15;
+      // }
+      // dotX = coordinates.side - this._ctx.lineWidth / 2;
+      // while (dotY < coordinates.side - this._ctx.lineWidth / 2) {
+      //   drawDot(ctx, dotX, dotY, dotRadius);
+      //   dotY += 15;
+      // }
+      // dotY = coordinates.side - this._ctx.lineWidth / 2;
+      // while (dotX > -coordinates.side - this._ctx.lineWidth / 2) {
+      //   drawDot(ctx, dotX, dotY, dotRadius);
+      //   dotX -= 15;
+      // }
+      // dotX = -coordinates.side - this._ctx.lineWidth / 2;
+      // while (dotY > -coordinates.side - this._ctx.lineWidth / 2) {
+      //   drawDot(ctx, dotX, dotY, dotRadius);
+      //   dotY -= 15;
+      // }
 
       // Текст
       this._ctx.font = '16px Verdana';
@@ -177,6 +180,52 @@ module.exports = function() {
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
+    },
+
+    // Рамка зигзагом
+
+    zigzagFrame: function() {
+      var resizeConstraintSide = -this._resizeConstraint.side / 2;
+      var coodinateX = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
+      var coodinateY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
+      var zigzagSize = this._resizeConstraint.side / 80;
+
+      this._ctx.strokeStyle = '#ffe753';
+      this._ctx.lineWidth = 2;
+
+      this._ctx.beginPath();
+      this._ctx.moveTo(coodinateX, coodinateY);
+
+      var i = 0;
+      while(i < -resizeConstraintSide) {
+        this._ctx.lineTo(coodinateX += zigzagSize, coodinateY -= zigzagSize);
+        this._ctx.lineTo(coodinateX += zigzagSize, coodinateY += zigzagSize);
+        i += zigzagSize;
+      }
+
+      i = 0;
+      while(i < -resizeConstraintSide) {
+        this._ctx.lineTo(coodinateX += zigzagSize, coodinateY += zigzagSize);
+        this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY += zigzagSize);
+        i += zigzagSize;
+      }
+
+      i = 0;
+      while(i < -resizeConstraintSide) {
+        this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY += zigzagSize);
+        this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY -= zigzagSize);
+        i += zigzagSize;
+      }
+
+      i = 0;
+      while(i < -resizeConstraintSide) {
+        this._ctx.lineTo(coodinateX -= zigzagSize, coodinateY -= zigzagSize);
+        this._ctx.lineTo(coodinateX += zigzagSize, coodinateY -= zigzagSize);
+        i += zigzagSize;
+      }
+
+      this._ctx.stroke();
+      this._ctx.strokeStyle = 'rgba(0,0,0,0)';
     },
 
     /**
