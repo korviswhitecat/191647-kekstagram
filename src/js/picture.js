@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function getPictureElement(picture) {
+module.exports = function getPictureElement(picture, index) {
 
+  var gallery = require('./gallery');
   var template = document.querySelector('template');
   var templateContainer = 'content' in template ? template.content : template;
   var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
@@ -31,5 +32,11 @@ module.exports = function getPictureElement(picture) {
     elementImage.width = 182;
     elementImage.height = 182;
   };
+
+  pictureElement.onclick = function(evt) {
+    gallery.show(index);
+    evt.preventDefault();
+  };
+
   return pictureElement;
 };

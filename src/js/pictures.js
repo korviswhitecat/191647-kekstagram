@@ -3,6 +3,7 @@
 module.exports = function() {
   var load = require('./load');
   var getPictureElement = require('./picture');
+  var gallery = require('./gallery');
 
 
   var picturesContainer = document.querySelector('.pictures');
@@ -19,4 +20,5 @@ module.exports = function() {
   };
 
   load(IMAGE_LOAD_URL, renderPictures);
+  gallery.setPictures(IMAGE_LOAD_URL, renderPictures);
 };
