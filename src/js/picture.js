@@ -34,8 +34,11 @@ module.exports = function getPictureElement(picture, index) {
   };
 
   pictureElement.onclick = function(evt) {
-    gallery.show(index);
     evt.preventDefault();
+
+    if(!this.classList.contains('picture-load-failure')) {
+      gallery.show(index);
+    }
   };
 
   return pictureElement;
