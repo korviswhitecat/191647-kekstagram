@@ -1,8 +1,9 @@
 'use strict';
 
-module.exports = function getPictureElement(picture, index) {
+var gallery = require('./gallery');
 
-  var gallery = require('./gallery');
+var getPictureElement = function(picture, index) {
+
   var template = document.querySelector('template');
   var templateContainer = 'content' in template ? template.content : template;
   var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
@@ -33,13 +34,30 @@ module.exports = function getPictureElement(picture, index) {
     elementImage.height = 182;
   };
 
-  pictureElement.onclick = function(evt) {
-    evt.preventDefault();
+  // pictureElement.onclick = function(evt) {
+  //   evt.preventDefault();
+  //
+  //   if(!this.classList.contains('picture-load-failure')) {
+  //     gallery.show(index);
+  //   }
+  // };
 
+  return pictureElement;
+};
+
+var Picture = function(picture, index) {
+  this.data = picture;
+  this.element = getPictureElement(picture, index);
+  var self = this;
+  this.element.onclick = function(evt) {
+    evt.preventDefault();
     if(!this.classList.contains('picture-load-failure')) {
       gallery.show(index);
     }
   };
-
-  return pictureElement;
+  this.remove = function() {
+    self.element.onclick = null;
+  };
 };
+
+module.exports = Picture;
