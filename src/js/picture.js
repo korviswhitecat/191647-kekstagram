@@ -2,7 +2,7 @@
 
 var gallery = require('./gallery');
 
-var getPictureElement = function(picture, index) {
+var getPictureElement = function(picture) {
 
   var template = document.querySelector('template');
   var templateContainer = 'content' in template ? template.content : template;
