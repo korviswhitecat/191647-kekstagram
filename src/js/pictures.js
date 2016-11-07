@@ -1,7 +1,7 @@
 'use strict';
 
 var load = require('./load');
-var getPictureElement = require('./picture');
+var Picture = require('./picture');
 var gallery = require('./gallery');
 
 module.exports = function() {
@@ -15,7 +15,7 @@ module.exports = function() {
 
     filters.classList.add('hidden');
     render.forEach(function(picture, index) {
-      picturesContainer.appendChild(getPictureElement(picture, index));
+      picturesContainer.appendChild(new Picture(picture, index).element);
     });
 
     filters.classList.remove('hidden');
