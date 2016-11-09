@@ -5,6 +5,8 @@ var load = function(IMAGE_LOAD_URL, callback) {
 
   xhr.open('GET', IMAGE_LOAD_URL);
 
+  // xhr.open('GET', IMAGE_LOAD_URL + '?filter=' + params.filter + '&from=' + params.from + '&to=' + params.to);
+
   xhr.addEventListener('load', function(evt) {
     try {
       var loadedData = JSON.parse(evt.target.response);
