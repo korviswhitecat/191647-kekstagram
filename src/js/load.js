@@ -1,14 +1,20 @@
 'use strict';
 
-module.exports = function load(url, callback, callbackName) {
-  if (!callbackName) {
-    callbackName = '__jsonpCallback' + Date.now();
-  }
-  window[callbackName] = function(data) {
-    callback(data);
-  };
+var load = function(IMAGE_LOAD_URL, callback) {
+  var xhr = new XMLHttpRequest();
 
-  var script = document.createElement('script');
-  script.src = url + '?callback=' + callbackName;
-  document.body.appendChild(script);
+  xhr.open('GET', IMAGE_LOAD_URL);
+
+  xhr.addEventListener('load', function(evt) {
+    try {
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
+    } catch(error) {
+      console.log(error);
+    }
+  });
+
+  xhr.send();
 };
+
+module.exports = load;
