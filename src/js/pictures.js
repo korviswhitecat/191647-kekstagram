@@ -7,7 +7,7 @@ var gallery = require('./gallery');
 module.exports = function() {
   var picturesContainer = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
-  var footer = document.querySelector('.footer');
+  // var footer = document.querySelector('.footer');
 
   var THROTTLE_TIMEOUT = 100;
   var PAGE_SIZE = 12;
@@ -31,13 +31,21 @@ module.exports = function() {
       picturesContainer.appendChild(new Picture(picture, index).element);
     });
 
-    if (picturesContainer.getBoundingClientRect().height - 120 < window.innerHeight - footer.getBoundingClientRect().height) {
-      pageNumber++;
-      setFilterProperties();
-      reLoad();
-    }
+    // if (picturesContainer.getBoundingClientRect().height - 120 < window.innerHeight - footer.getBoundingClientRect().height) {
+    //   pageNumber++;
+    //   setFilterProperties();
+    //   // reLoad();
+    // }
 
     filters.classList.remove('hidden');
+  };
+
+
+  var isBottomReached = function() {
+    var GAP = 100;
+    var footerElement = document.querySelector('footer');
+    var footerPosition = footerElement.getBoundingClientRect();
+    return footerPosition.top - window.innerHeight - GAP <= 0;
   };
 
   var setFilterProperties = function() {
@@ -45,8 +53,19 @@ module.exports = function() {
     params.to = pageNumber * PAGE_SIZE + PAGE_SIZE;
   };
 
+  var isNextPageAvailable = function(data, page, pageSize) {
+    return page < Math.floor(data.length / pageSize);
+  };
+
   var reLoad = function() {
-    load(IMAGE_LOAD_URL, params, renderPictures);
+    load(IMAGE_LOAD_URL, params, function(data) {
+      renderPictures(data);
+      if (isBottomReached() && isNextPageAvailable(data, pageNumber, PAGE_SIZE)) {
+        pageNumber++;
+        setFilterProperties();
+        reLoad();
+      }
+    });
   };
 
   var setFiltersEnabled = function() {
@@ -66,10 +85,13 @@ module.exports = function() {
 
     window.addEventListener('scroll', function() {
       if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        load(IMAGE_LOAD_URL, params, renderPictures);
-        pageNumber++;
-        setFilterProperties();
-        lastCall = Date.now();
+        if (isBottomReached() && isNextPageAvailable(data, pageNumber, PAGE_SIZE)) {
+          load(IMAGE_LOAD_URL, params, renderPictures);
+          pageNumber++;
+          setFilterProperties();
+          lastCall = Date.now();
+
+        }
       }
     });
   };
