@@ -5,7 +5,6 @@ var gallery = require('./gallery');
 var Picture = function(picture, index) {
   this.data = picture;
   this.element = this.getPictureElement(picture, index);
-  var self = this;
   this.element.onclick = function(evt) {
     evt.preventDefault();
     if(!this.classList.contains('picture-load-failure')) {
@@ -13,7 +12,7 @@ var Picture = function(picture, index) {
     }
   };
   this.remove = function() {
-    self.element.onclick = null;
+    this.element.onclick = null;
   };
 };
 
