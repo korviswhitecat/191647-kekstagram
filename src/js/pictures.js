@@ -13,12 +13,12 @@ module.exports = function() {
   var PAGE_SIZE = 12;
   var IMAGE_LOAD_URL = 'http://localhost:1507/api/pictures';
   var pageNumber = 0;
-  var activeFilter = 'filter-popular';
+  var storedFilter = localStorage.getItem('storedFilter') || 'filter-popular';
 
   var params = {
     from: pageNumber * PAGE_SIZE,
     to: pageNumber * PAGE_SIZE + PAGE_SIZE,
-    filter: activeFilter
+    filter: storedFilter
   };
 
   var renderPictures = function(render) {
@@ -69,6 +69,7 @@ module.exports = function() {
         pageNumber = 0;
         setFilterProperties();
         params.filter = evt.target.id;
+        localStorage.setItem('storedFilter', params.filter);
         reLoad();
       }
     });
