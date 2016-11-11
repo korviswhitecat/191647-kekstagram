@@ -7,11 +7,6 @@ function Gallery() {
   this.closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
   this.galleryImage = this.galleryContainer.querySelector('.gallery-overlay-image');
 
-  this.show = this.show.bind(this);
-  this.setActivePicture = this.setActivePicture.bind(this);
-  this.hide = this.hide.bind(this);
-
-  // this.closeElement = this.closeElement.bind(this);
 }
 
 Gallery.prototype = {
@@ -40,19 +35,18 @@ Gallery.prototype = {
   },
 
   show: function(number) {
-    // var self = this;
-    this.closeElement.onclick = function() {
+    this.closeElement.addEventListener('click', function() {
       this.hide();
-    };
+    }.bind(this), false);
 
-    this.galleryImage.onclick = function() {
+    this.galleryImage.addEventListener('click', function() {
       if (number < this.pictures.length - 1) {
         this.setActivePicture(++number);
       } else {
         number = 0;
         this.setActivePicture(0);
       }
-    };
+    }.bind(this), false);
 
     this.galleryContainer.classList.remove('invisible');
     this.setActivePicture(number);
