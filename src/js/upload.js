@@ -220,13 +220,6 @@ module.exports = function() {
     var valueY = parseInt(resizeY.value, 10);
     var valueSize = parseInt(resizeSize.value, 10);
 
-    // resizeSize.min = 1;
-    // resizeSize.max = Math.min(currentResizer._image.naturalWidth, currentResizer._image.naturalHeight);
-    // valueX.max = currentResizer._image.naturalWidth / 2;
-    // valueY.max = currentResizer._image.naturalHeight / 2;
-    // valueX.min = 0;
-    // valueY.min = 0;
-
     currentResizer.setConstraint(valueX, valueY, valueSize);
   });
 
