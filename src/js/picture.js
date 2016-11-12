@@ -5,15 +5,14 @@ var gallery = require('./gallery');
 var Picture = function(picture, index) {
   this.data = picture;
   this.element = this.getPictureElement(picture, index);
-  var self = this;
-  this.element.onclick = function(evt) {
+  this.element.addEventListener('click', function(evt) {
     evt.preventDefault();
     if(!this.classList.contains('picture-load-failure')) {
       gallery.show(index);
     }
-  };
+  });
   this.remove = function() {
-    self.element.onclick = null;
+    this.element.onclick = null;
   };
 };
 
@@ -36,18 +35,18 @@ Picture.prototype = {
       elementImage.height = 182;
     }, IMAGE_LOAD_TIMEOUT);
 
-    elementImage.onload = function(evt) {
+    elementImage.addEventListener('load', function(evt) {
       clearTimeout(imageLoadTimeout);
       img.src = evt.target.src;
       elementImage.width = 182;
       elementImage.height = 182;
-    };
+    });
 
-    elementImage.onerror = function() {
+    elementImage.addEventListener('error', function() {
       pictureElement.classList.add('picture-load-failure');
       elementImage.width = 182;
       elementImage.height = 182;
-    };
+    });
 
     return pictureElement;
   }
