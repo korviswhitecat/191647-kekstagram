@@ -75,23 +75,27 @@ module.exports = function() {
     });
   };
 
-  var setScrollEnabled = function() {
+  var throttle = function(optmizedFunc, ms) {
     var lastCall = Date.now();
-
-    window.addEventListener('scroll', function() {
-      if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-          pageNumber++;
-          setFilterProperties();
-          load(IMAGE_LOAD_URL, params, renderPictures);
-        }
+    return function() {
+      if(Date.now() - lastCall >= ms) {
+        optmizedFunc();
         lastCall = Date.now();
       }
-    });
+    };
   };
+
+  var optimizedScroll = throttle(function() {
+    if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+      pageNumber++;
+      setFilterProperties();
+      load(IMAGE_LOAD_URL, params, renderPictures);
+    }
+  }, THROTTLE_TIMEOUT);
+
+  window.addEventListener('scroll', optimizedScroll);
 
   reLoad();
   setFiltersEnabled();
-  setScrollEnabled();
 
 };
