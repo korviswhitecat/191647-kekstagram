@@ -95,23 +95,7 @@ module.exports = function() {
 
   window.addEventListener('scroll', optimizedScroll);
 
-  // var setScrollEnabled = function() {
-  //   var lastCall = Date.now();
-  //
-  //   window.addEventListener('scroll', function() {
-  //     if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-  //       if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-  //         pageNumber++;
-  //         setFilterProperties();
-  //         load(IMAGE_LOAD_URL, params, renderPictures);
-  //       }
-  //       lastCall = Date.now();
-  //     }
-  //   });
-  // };
-
   reLoad();
   setFiltersEnabled();
-  // setScrollEnabled();
 
 };
